@@ -1,9 +1,9 @@
 package org.wildfly.prospero.spi;
 
-
 import org.jboss.galleon.ProvisioningException;
 import org.wildfly.installationmanager.HistoryResult;
 import org.wildfly.installationmanager.HistoryRevisionResult;
+import org.wildfly.installationmanager.MavenOptions;
 import org.wildfly.installationmanager.spi.InstallationManager;
 import org.wildfly.prospero.Messages;
 import org.wildfly.prospero.actions.InstallationHistoryAction;
@@ -19,23 +19,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ProsperoInstallationManager implements InstallationManager {
 
-    private MavenSessionManager mavenSessionManager;
-    private Path server;
+    private final Path server;
+    private final MavenSessionManager mavenSessionManager;
 
-    @Override
-    public InstallationManager initialize(Path installationDir) throws ProvisioningException {
-        this.server = installationDir;
-        mavenSessionManager = new MavenSessionManager();
-        return this;
-    }
-
-    @Override
-    public String getName() {
-        return "prospero";
+    public ProsperoInstallationManager(Path server, MavenOptions mavenOptions) throws ProvisioningException {
+        this.server = server;
+        this.mavenSessionManager = new MavenSessionManager(Optional.ofNullable(mavenOptions.getLocalRepository()), mavenOptions.isOffline());
     }
 
     @Override
@@ -52,7 +46,7 @@ public class ProsperoInstallationManager implements InstallationManager {
     }
 
     @Override
-    public List<HistoryRevisionResult> history(String revision) throws MetadataException {
+    public List<HistoryRevisionResult> revisionDetails(String revision) throws MetadataException {
         Objects.requireNonNull(revision);
         final InstallationHistoryAction historyAction = new InstallationHistoryAction(this.server, null);
         final List<ArtifactChange> changes = historyAction.compare(new SavedState(revision));
