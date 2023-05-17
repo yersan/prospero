@@ -31,9 +31,22 @@ public class CliProviderImpl implements CliProvider {
 
     private boolean isWindows = System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows");
 
+    private String jbossLaunchScript = System.getenv("JBOSS_LAUNCH_SCRIPT");
+
     @Override
     public String getScriptName() {
-        final String suffix = isWindows ?".bat":".sh";
+        final String suffix;
+        if (jbossLaunchScript != null) {
+            if (jbossLaunchScript.equals("powershell")) {
+                suffix = ".ps1";
+            } else if (jbossLaunchScript.equals("batch")) {
+                suffix = ".bat";
+            } else {
+                suffix = ".sh";
+            }
+        } else {
+            suffix = ".sh";
+        }
         return DistributionInfo.DIST_NAME + suffix;
     }
 
