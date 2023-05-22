@@ -83,24 +83,31 @@ JAVA_OPTS="$JAVA_OPTS -Dcom.ibm.jsse2.overrideDefaultTLS=true"
 # WFCORE-5216 - evaluate any eventual env variables
 JBOSS_MODULEPATH=$(eval echo \"${JBOSS_MODULEPATH}\")
 
+# escape the command line parameters before passing them to eval
+ARGS=
+for var in "$@"
+do
+    ARGS="${ARGS} \"$var\""
+done
+
 LOG_CONF=`echo $JAVA_OPTS | grep "logging.configuration"`
 LOG_FILE_CONF=`echo $JAVA_OPTS | grep "org.wildfly.prospero.log.file"`
 if [ "x$LOG_CONF" = "x" ]; then
     if [ "x$LOG_FILE_CONF" = "x" ]; then
         eval \"$JAVA\" $JAVA_OPTS \"-Dorg.wildfly.prospero.log.file="${PROSPERO_HOME}/logs/installation.log"\" \
          \"-Dlogging.configuration=file:"$PROSPERO_HOME"/bin/prospero-logging.properties\" \
-         -jar \""$PROSPERO_HOME"/jboss-modules.jar\" -mp \""${JBOSS_MODULEPATH}"\" org.jboss.prospero "$@"
+         -jar \""$PROSPERO_HOME"/jboss-modules.jar\" -mp \""${JBOSS_MODULEPATH}"\" org.jboss.prospero "$ARGS"
     else
         eval \"$JAVA\" $JAVA_OPTS \"-Dlogging.configuration=file:"$PROSPERO_HOME"/bin/prospero-logging.properties\" \
-         -jar \""$PROSPERO_HOME"/jboss-modules.jar\" -mp \""${JBOSS_MODULEPATH}"\" org.jboss.prospero "$@"
+         -jar \""$PROSPERO_HOME"/jboss-modules.jar\" -mp \""${JBOSS_MODULEPATH}"\" org.jboss.prospero "$ARGS"
     fi
 else
     if [ "x$LOG_FILE_CONF" = "x" ]; then
         eval \""$JAVA"\" $JAVA_OPTS \"-Dorg.wildfly.prospero.log.file="${PROSPERO_HOME}/logs/installation.log"\" \
-         -jar \""$PROSPERO_HOME"/jboss-modules.jar\" -mp \""${JBOSS_MODULEPATH}"\" org.jboss.prospero "$@"
+         -jar \""$PROSPERO_HOME"/jboss-modules.jar\" -mp \""${JBOSS_MODULEPATH}"\" org.jboss.prospero "$ARGS"
     else
         eval \""$JAVA\"" $JAVA_OPTS -jar \""$PROSPERO_HOME"/jboss-modules.jar\" \
-        -mp \""${JBOSS_MODULEPATH}\"" org.jboss.prospero "$@"
+        -mp \""${JBOSS_MODULEPATH}\"" org.jboss.prospero "$ARGS"
     fi
 fi
 
