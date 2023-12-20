@@ -1,14 +1,25 @@
 ---
-- name: "wildfly"
-  galleonConfiguration: "classpath:wildfly-provisioning.xml"
+- name: "eap-8.0"
+  galleonConfiguration: "classpath:eap-8.0-provisioning.xml"
   channels:
     - schemaVersion: "2.0.0"
-      name: "wildfly"
+      name: "eap-8.0"
       repositories:
-        - id: "central"
-          url: "https://repo1.maven.org/maven2/"
-        - id: "jboss-public"
-          url: "https://repository.jboss.org/nexus/content/groups/public/"
         - id: "mrrc"
           url: "https://maven.repository.redhat.com/ga/"
-      manifest: null
+      manifest:
+        maven:
+          groupId: "org.jboss.eap.channels"
+          artifactId: "eap-8.0"
+- name: "eap-xp-5.0"
+  galleonConfiguration: "classpath:eap-xp-5-provisioning.xml"
+  channels:
+    - schemaVersion: "2.0.0"
+      name: "eap-xp-5.0"
+      repositories:
+        - id: "mrrc-ea"
+          url: "https://maven.repository.redhat.com/earlyaccess/all/"
+      manifest:
+        maven:
+          groupId: "org.jboss.eap.channels"
+          artifactId: "eap-xp-5.0-beta"

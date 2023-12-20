@@ -22,17 +22,17 @@
   </scm>
 
     <properties>
-        <prospero.dist.name>prospero</prospero.dist.name>
-        <prospero.target.server>Wildfly</prospero.target.server>
-        <prospero.base.feature-pack.groupId>org.wildfly</prospero.base.feature-pack.groupId>
+        <prospero.dist.name>jboss-eap-installation-manager</prospero.dist.name>
+        <prospero.target.server>JBoss EAP</prospero.target.server>
+        <prospero.base.feature-pack.groupId>org.jboss.eap</prospero.base.feature-pack.groupId>
         <prospero.base.feature-pack.artifactId>wildfly-ee-galleon-pack</prospero.base.feature-pack.artifactId>
-        <prospero.base.feature-pack.version>26.1.0.Final</prospero.base.feature-pack.version>
-        <prospero.test.base.channel.groupId>org.wildfly.channels</prospero.test.base.channel.groupId>
-        <prospero.test.base.channel.artifactId>wildfly-28-test</prospero.test.base.channel.artifactId>
-        <prospero.test.base.repositories>https://repo1.maven.org/maven2/,https://repository.jboss.org/nexus/content/groups/public/</prospero.test.base.repositories>
-        <prospero.repo.id>central</prospero.repo.id>
-        <prospero.repo.url>https://repo1.maven.org/maven2/</prospero.repo.url>
-        <prospero.channel.resolution.mode>NOT_REQUIRED</prospero.channel.resolution.mode>
+        <prospero.base.feature-pack.version>8.0.0.Beta-redhat-00003</prospero.base.feature-pack.version>
+        <prospero.test.base.channel.groupId>org.jboss.eap</prospero.test.base.channel.groupId>
+        <prospero.test.base.channel.artifactId>eap-8.0</prospero.test.base.channel.artifactId>
+        <prospero.test.base.repositories>https://repo1.maven.org/maven2/,https://repository.jboss.org/nexus/content/groups/public/,http://eap-prod-reposilite.usersys.redhat.com/eap8-test-release</prospero.test.base.repositories>
+        <prospero.repo.id>mrrc</prospero.repo.id>
+        <prospero.repo.url>https://maven.repository.redhat.com/ga/</prospero.repo.url>
+        <prospero.channel.resolution.mode>REQUIRED</prospero.channel.resolution.mode>
 
         <version.io.undertow>2.3.5.Final</version.io.undertow>
         <version.commons-codec>1.15</version.commons-codec>
@@ -543,6 +543,20 @@
     </reporting>
 
     <repositories>
+      <repository>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+            <id>eap-8.0-brew-repository</id>
+            <name>EAP 8.0 Brew Repository</name>
+            <url>https://download.eng.brq.redhat.com/brewroot/repos/jb-eap-8.0-maven-build/latest/maven/</url>
+            <layout>default</layout>
+      </repository>
         <repository>
             <releases>
                 <enabled>true</enabled>
