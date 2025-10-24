@@ -465,7 +465,7 @@ public class InstallCommandTest extends AbstractMavenCommandTest {
                 });
 
         // provisionAction.provision() should have been called with channels containing unzipped repo
-        Mockito.verify(provisionAction).provision(configCaptor.capture(), channelCaptor.capture(), any());
+        Mockito.verify(provisionAction).provisionWithChannels(configCaptor.capture(), channelCaptor.capture(), any());
         assertThat(channelCaptor.getValue().get(0).getRepositories())
                 .satisfies(list -> {
                     assertThat(list.size()).isEqualTo(1);
