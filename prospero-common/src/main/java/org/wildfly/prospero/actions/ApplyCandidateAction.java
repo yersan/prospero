@@ -305,14 +305,20 @@ public class ApplyCandidateAction {
         }
     }
 
-    public boolean removeCandidate(File updateDir) {
+    public boolean removeCandidate(File updateDir) throws ProvisioningException {
         File[] allContents = updateDir.listFiles();
         if (allContents != null) {
             for (File file : allContents) {
                 removeCandidate(file);
             }
         }
-        return updateDir.delete();
+        //File.delete() fails and returns false with JDK25 on Windows if the DOS read-only attribute is set.
+        try {
+            FileUtils.forceDelete(updateDir);
+        } catch (IOException e) {
+            throw new ProvisioningException(e);
+        }
+        return updateDir.exists();
     }
 
     /**
