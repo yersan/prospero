@@ -473,6 +473,7 @@ public class InstallCommandTest extends AbstractMavenCommandTest {
                 });
     }
 
+    @Test
     public void versionStringWithChannelNameAndVersionIsAppliedToAChannel() throws Exception {
         int exitCode = commandLine.execute(CliConstants.Commands.INSTALL, CliConstants.DIR, "test",
                 CliConstants.PROFILE, "known-fpl",
