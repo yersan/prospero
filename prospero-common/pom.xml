@@ -95,13 +95,6 @@
         </dependency>
         <dependency>
             <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging-processor</artifactId>
-            <!-- Compile time dependency of this module, but not needed by modules that depend on this module. -->
-            <optional>true</optional>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging-annotations</artifactId>
             <!-- Compile time dependency of this module, but not needed by modules that depend on this module. -->
             <optional>true</optional>

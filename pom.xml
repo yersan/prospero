@@ -112,6 +112,7 @@
         <version.org.eclipse.jgit>6.10.1.202505221210-r</version.org.eclipse.jgit>
         <version.com.fasterxml.jackson>2.17.0</version.com.fasterxml.jackson>
         <version.org.jboss.logmanager>2.1.19.Final</version.org.jboss.logmanager>
+        <version.org.jboss.logging.jboss-logging>3.6.1.Final</version.org.jboss.logging.jboss-logging>
         <version.org.jboss.logging.slf4j-jboss-logmanager>2.0.1.Final</version.org.jboss.logging.slf4j-jboss-logmanager>
         <version.org.jboss.logging.jboss-logging-processor>2.2.1.Final</version.org.jboss.logging.jboss-logging-processor>
         <version.org.jboss.modules>2.1.6.Final</version.org.jboss.modules>
@@ -392,6 +393,12 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${version.com.fasterxml.jackson}</version>
+                <exclusions>
+                   <exclusion>
+                       <groupId>net.bytebuddy</groupId>
+                       <artifactId>byte-buddy</artifactId>
+                   </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
@@ -418,13 +425,7 @@
                 <version>${version.org.jboss.logging.jboss-logging-processor}</version>
             </dependency>
 
-            <dependency>
-                <groupId>org.jboss.logging</groupId>
-                <artifactId>jboss-logging-processor</artifactId>
-                <version>${version.org.jboss.logging.jboss-logging-processor}</version>
-            </dependency>
-
-            <dependency>
+             <dependency>
                 <groupId>org.jboss.slf4j</groupId>
                 <artifactId>slf4j-jboss-logmanager</artifactId>
                 <version>${version.org.jboss.logging.slf4j-jboss-logmanager}</version>
@@ -509,12 +510,14 @@
                 <version>${version.org.testcontainers}</version>
                 <scope>test</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
     <build>
         <pluginManagement>
             <plugins>
+                 <!-- Adding annotationProcessor to add generated logger implementations to compiler -->
                 <plugin>
                     <groupId>org.asciidoctor</groupId>
                     <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -539,6 +542,20 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${version.maven-compiler-plugin}</version>
+                    <configuration>
+	                    <annotationProcessorPaths>
+	                        <path>
+		                        <groupId>org.jboss.logging</groupId>
+		                        <artifactId>jboss-logging-processor</artifactId>
+		                        <version>${version.org.jboss.logging.jboss-logging-processor}</version>
+	                        </path>
+	                        <path>
+	                            <groupId>org.jboss.logging</groupId>
+	                            <artifactId>jboss-logging</artifactId>
+	                            <version>${version.org.jboss.logging.jboss-logging}</version>
+	                        </path>
+	                    </annotationProcessorPaths>
+                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
